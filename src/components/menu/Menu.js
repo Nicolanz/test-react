@@ -17,11 +17,14 @@ const token = cookie.get("token");
 class Menu extends Component{
 
     logout = async (event)=>{
-
         event.preventDefault();
         axios.defaults.headers.common['Authorization'] = `${token_type} ${token}`
 
-        await axios.post(logOutUrl).then((res)=>{
+        await axios.post(logOutUrl, {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((res)=>{
             cookie.remove("id", {path: "/"});
             cookie.remove("name", {path: "/"});
             cookie.remove("token_type", {path: "/"});
@@ -51,6 +54,8 @@ class Menu extends Component{
         return (
             <div>
                 Menu Principal
+                <br />
+                <a href="./posts">Posts</a>
                 <br />
                 <button className="btn btn-primary" type="submit"
                 onClick={(event)=>this.logout(event)} >Log Out</button>
